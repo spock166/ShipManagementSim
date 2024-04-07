@@ -10,9 +10,9 @@ public partial class Player : Area2D
 	}
 
 	[Export]
-    	public int Speed { get; set; } = 50; // How fast the player will move (pixels/sec).
+		public int Speed { get; set; } = 100; // How fast the player will move (pixels/sec).
 
-    	public Vector2 ScreenSize; // Size of the game window.
+		public Vector2 ScreenSize; // Size of the game window.
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
@@ -45,9 +45,5 @@ public partial class Player : Area2D
 		}
 
 		Position += velocity * (float)delta;
-		Position = new Vector2(
-			x:Mathf.Clamp(Position.X,0,ScreenSize.X),
-			y:Mathf.Clamp(Position.Y,0,ScreenSize.Y)
-		);
 	}
 }

@@ -33,3 +33,5 @@ sprite_frames = SubResource("SpriteFrames_elqpp")
 animation = &"walk"
 frame = 1
 frame_progress = 0.375263
+
+[node name="Camera2D" type="Camera2D" parent="."]
