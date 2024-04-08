@@ -63,4 +63,8 @@ public partial class Player : Area2D
 		Position += velocity * (float)delta;
 		syncPos = GlobalPosition;
 	}
+
+	public void SetUpPlayer(string name){
+		GetNode<Label>("NameLabel").Text = name;
+	}
 }

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Data.Common;
 using System.Diagnostics;
+using System.Linq;
 
 public partial class MultiplayerController : Control
 {
@@ -37,6 +38,13 @@ public partial class MultiplayerController : Control
 	private void PeerDisconnected(long id)
 	{
 		GD.Print("Player Disconnected: " + id.ToString());
+			GameManager.Players.Remove(GameManager.Players.Where(i => i.Id == id).First());
+		Godot.Collections.Array<Node> players = GetTree().GetNodesInGroup("Player");
+		foreach(Player player in players){
+			if(player.Name == id.ToString()){
+				player.QueueFree();
+			}
+		}
 	}
 
 	/// <summary>

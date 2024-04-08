@@ -13,6 +13,8 @@ public partial class SceneManager : Node2D
 		foreach(PlayerInfo player in GameManager.Players){
 			Player currentPlayer = playerScene.Instantiate<Player>();
 			currentPlayer.Name = player.Id.ToString(); // Use Id since unique
+			currentPlayer.SetUpPlayer(player.Name==""?"Nameless":player.Name);
+
 			AddChild(currentPlayer);
 			foreach( Node2D spawnPoint in GetTree().GetNodesInGroup("SpawnPoints")){
 				if(int.Parse(spawnPoint.Name) == index){
