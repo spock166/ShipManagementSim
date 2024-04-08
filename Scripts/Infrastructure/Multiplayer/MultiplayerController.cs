@@ -117,7 +117,7 @@ public partial class MultiplayerController : Control
 		{
 			foreach (PlayerInfo player in GameManager.Players)
 			{
-				Rpc(nameof(SendPlayerInformation), name, id);
+				Rpc(nameof(SendPlayerInformation), player.Name, player.Id);
 			}
 		}
 	}

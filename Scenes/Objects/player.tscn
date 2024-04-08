@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b2ix65bwgawml"]
+[gd_scene load_steps=7 format=3 uid="uid://b2ix65bwgawml"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/Player.cs" id="1_3qky0"]
 [ext_resource type="Texture2D" uid="uid://b1jn13vvwkwys" path="res://Sprites/Objects/Player/player.png" id="2_wskv1"]
@@ -21,6 +21,11 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5ddw8"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
 [node name="Player" type="Area2D"]
 script = ExtResource("1_3qky0")
 
@@ -29,9 +34,14 @@ position = Vector2(1.5, 1.5)
 shape = SubResource("RectangleShape2D_1ctqi")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_elqpp")
 animation = &"walk"
 frame = 1
 frame_progress = 0.375263
 
 [node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_5ddw8")
