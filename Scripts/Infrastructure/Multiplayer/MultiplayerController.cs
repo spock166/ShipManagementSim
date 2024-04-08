@@ -53,6 +53,7 @@ public partial class MultiplayerController : Control
 	private void ConnectedToServer()
 	{
 		GD.Print("Connected to Server Senpai!  Have Fun!");
+		RpcId(1, nameof(SendPlayerInformation), GetNode<LineEdit>("GridContainer/NameEntry").Text, Multiplayer.GetUniqueId());
 	}
 
 	public void OnHostButtonDown()
@@ -68,6 +69,9 @@ public partial class MultiplayerController : Control
 
 		Multiplayer.MultiplayerPeer = peer;
 		GD.Print("Waiting For Players...");
+
+		// Ensure the host gets registered as a player.
+		SendPlayerInformation(GetNode<LineEdit>("GridContainer/NameEntry").Text,1);
 	}
 
 
@@ -84,7 +88,7 @@ public partial class MultiplayerController : Control
 
 	public void OnStartButtonDown()
 	{
-		Rpc("StartGame");
+		Rpc(nameof(StartGame));
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
@@ -93,5 +97,28 @@ public partial class MultiplayerController : Control
 		Node2D scene = ResourceLoader.Load<PackedScene>("res://Scenes/Areas/main.tscn").Instantiate<Node2D>();
 		GetTree().Root.AddChild(scene);
 		Hide();
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	private void SendPlayerInformation(string name, int id)
+	{
+		PlayerInfo playerInfo = new PlayerInfo()
+		{
+			Name = name,
+			Id = id,
+		};
+
+		if (!GameManager.Players.Contains(playerInfo))
+		{
+			GameManager.Players.Add(playerInfo);
+		}
+
+		if (Multiplayer.IsServer())
+		{
+			foreach (PlayerInfo player in GameManager.Players)
+			{
+				Rpc(nameof(SendPlayerInformation), name, id);
+			}
+		}
 	}
 }
