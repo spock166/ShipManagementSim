@@ -1,0 +1,49 @@
+[gd_scene load_steps=2 format=3 uid="uid://bncnxigqjyswd"]
+
+[ext_resource type="Script" path="res://Scripts/Infrastructure/Multiplayer/MultiplayerController.cs" id="1_7rwco"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7rwco")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -61.0
+offset_top = -68.0
+offset_right = 61.0
+offset_bottom = 68.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+text = "Name:"
+
+[node name="LineEdit" type="LineEdit" parent="GridContainer"]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Join" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="Start" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "Start Game"
+
+[connection signal="button_down" from="GridContainer/Host" to="." method="OnHostButtonDown"]
+[connection signal="button_down" from="GridContainer/Join" to="." method="OnJoinButtonDown"]
+[connection signal="button_down" from="GridContainer/Start" to="." method="OnStartButtonDown"]
