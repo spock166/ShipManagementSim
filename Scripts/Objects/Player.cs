@@ -14,10 +14,13 @@ public partial class Player : Area2D
 
 	public Vector2 ScreenSize; // Size of the game window.
 
+	private Vector2 syncPos = new Vector2(0, 0);
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
 		if(GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() != Multiplayer.GetUniqueId()){
+			GlobalPosition = GlobalPosition.Lerp(syncPos, .25f);
 			return;
 		}
 
@@ -58,5 +61,6 @@ public partial class Player : Area2D
 		}
 
 		Position += velocity * (float)delta;
+		syncPos = GlobalPosition;
 	}
 }
