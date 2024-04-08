@@ -59,7 +59,8 @@ public partial class MultiplayerController : Control
 	{
 		peer = new ENetMultiplayerPeer();
 		Error error = peer.CreateServer(port, maxClients: 8);
-		if(error != Error.Ok){
+		if (error != Error.Ok)
+		{
 			GD.Print("Error Senpai Cannot Host: " + error.ToString());
 			return;
 		}
@@ -83,6 +84,14 @@ public partial class MultiplayerController : Control
 
 	public void OnStartButtonDown()
 	{
-		// Replace with function body.
+		Rpc("StartGame");
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
+	private void StartGame()
+	{
+		Node2D scene = ResourceLoader.Load<PackedScene>("res://Scenes/Areas/main.tscn").Instantiate<Node2D>();
+		GetTree().Root.AddChild(scene);
+		Hide();
 	}
 }
