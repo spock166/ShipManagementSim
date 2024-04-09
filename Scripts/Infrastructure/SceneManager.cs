@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class SceneManager : Node2D
 {
@@ -10,24 +9,22 @@ public partial class SceneManager : Node2D
 	public override void _Ready()
 	{
 		int index = 0;
-		foreach(PlayerInfo player in GameManager.Players){
+		foreach (PlayerInfo player in GameManager.Players)
+		{
 			Player currentPlayer = playerScene.Instantiate<Player>();
 			currentPlayer.Name = player.Id.ToString(); // Use Id since unique
-			currentPlayer.SetUpPlayer(player.Name==""?"Nameless":player.Name);
+			currentPlayer.SetUpPlayer(player.Name == "" ? "Nameless" : player.Name);
 
 			AddChild(currentPlayer);
-			foreach( Node2D spawnPoint in GetTree().GetNodesInGroup("SpawnPoints")){
-				if(int.Parse(spawnPoint.Name) == index){
+			foreach (Node2D spawnPoint in GetTree().GetNodesInGroup("SpawnPoints"))
+			{
+				if (int.Parse(spawnPoint.Name) == index)
+				{
 					currentPlayer.GlobalPosition = spawnPoint.GlobalPosition;
 					GD.Print("Spawning" + currentPlayer.Name);
 				}
 			}
 			index++;
 		}
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
 	}
 }

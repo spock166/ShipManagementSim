@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Player : Area2D
 {
@@ -19,7 +18,8 @@ public partial class Player : Area2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if(GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() != Multiplayer.GetUniqueId()){
+		if (GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() != Multiplayer.GetUniqueId())
+		{
 			GlobalPosition = GlobalPosition.Lerp(syncPos, .25f);
 			return;
 		}
@@ -64,7 +64,12 @@ public partial class Player : Area2D
 		syncPos = GlobalPosition;
 	}
 
-	public void SetUpPlayer(string name){
+	/// <summary>
+	/// Setup player when entering the scene.
+	/// </summary>
+	/// <param name="name">The name to assign to the player's nametag.</param>
+	public void SetUpPlayer(string name)
+	{
 		GetNode<Label>("NameLabel").Text = name;
 	}
 }

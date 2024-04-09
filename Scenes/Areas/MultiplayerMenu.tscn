@@ -11,39 +11,64 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7rwco")
 
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="Container" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -61.0
-offset_top = -68.0
-offset_right = 61.0
-offset_bottom = 68.0
+offset_left = -74.0
+offset_top = -143.5
+offset_right = 74.0
+offset_bottom = 143.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="GridContainer"]
+[node name="NameLabel" type="Label" parent="Container"]
 layout_mode = 2
 text = "Name:"
 
-[node name="NameEntry" type="LineEdit" parent="GridContainer"]
+[node name="NameEntry" type="LineEdit" parent="Container"]
 layout_mode = 2
 
-[node name="Host" type="Button" parent="GridContainer"]
+[node name="IPLabel" type="Label" parent="Container"]
 layout_mode = 2
+text = "IP Address:"
+
+[node name="IPEntry" type="LineEdit" parent="Container"]
+layout_mode = 2
+
+[node name="PortLabel" type="Label" parent="Container"]
+layout_mode = 2
+text = "Port:"
+
+[node name="PortEntry" type="LineEdit" parent="Container"]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="Container"]
+layout_mode = 2
+disabled = true
 text = "Host"
 
-[node name="Join" type="Button" parent="GridContainer"]
+[node name="Join" type="Button" parent="Container"]
 layout_mode = 2
+disabled = true
 text = "Join"
 
-[node name="Start" type="Button" parent="GridContainer"]
+[node name="Instructions" type="RichTextLabel" parent="Container"]
 layout_mode = 2
+text = "Start once all players have joined:"
+fit_content = true
+
+[node name="Start" type="Button" parent="Container"]
+layout_mode = 2
+disabled = true
 text = "Start Game"
 
-[connection signal="button_down" from="GridContainer/Host" to="." method="OnHostButtonDown"]
-[connection signal="button_down" from="GridContainer/Join" to="." method="OnJoinButtonDown"]
-[connection signal="button_down" from="GridContainer/Start" to="." method="OnStartButtonDown"]
+[connection signal="text_changed" from="Container/NameEntry" to="." method="OnNameEntryChanged"]
+[connection signal="text_changed" from="Container/IPEntry" to="." method="OnIPEntryChanged"]
+[connection signal="text_changed" from="Container/PortEntry" to="." method="OnPortEntryChanged"]
+[connection signal="button_down" from="Container/Host" to="." method="OnHostButtonDown"]
+[connection signal="button_down" from="Container/Join" to="." method="OnJoinButtonDown"]
+[connection signal="button_down" from="Container/Start" to="." method="OnStartButtonDown"]
