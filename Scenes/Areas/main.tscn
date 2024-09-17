@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dya3jgaxkh5qo"]
+[gd_scene load_steps=6 format=3 uid="uid://dya3jgaxkh5qo"]
 
 [ext_resource type="Script" path="res://Scripts/Infrastructure/SceneManager.cs" id="1_5pk0b"]
 [ext_resource type="Texture2D" uid="uid://d2vf85fk76mnm" path="res://Sprites/Backgrounds/Space0.png" id="1_7gv85"]
 [ext_resource type="PackedScene" uid="uid://b2ix65bwgawml" path="res://Scenes/Objects/player.tscn" id="1_t3bvh"]
 [ext_resource type="TileSet" uid="uid://cymg2j5burt8u" path="res://Resources/TileSets/FloorTiles.tres" id="4_y43vs"]
+[ext_resource type="PackedScene" uid="uid://0r7doc1uqsd1" path="res://Scenes/GUI/hud.tscn" id="5_2kru7"]
 
-[node name="MainScene" type="Node2D"]
+[node name="MainScene" type="Node2D" node_paths=PackedStringArray("hud")]
 script = ExtResource("1_5pk0b")
 playerScene = ExtResource("1_t3bvh")
+hud = NodePath("HUD")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 follow_viewport_enabled = true
@@ -35,3 +37,5 @@ position = Vector2(445, 75)
 
 [node name="1" type="Node2D" parent="SpawnPoints" groups=["SpawnPoints"]]
 position = Vector2(-260, 69)
+
+[node name="HUD" parent="." instance=ExtResource("5_2kru7")]

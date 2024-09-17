@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class Player : Area2D
@@ -5,18 +6,45 @@ public partial class Player : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		playerInfo = new BeingInfo("Player");
+
+	}
+
+	internal void OnInitialize(string name)
+	{
+		playerInfo = new BeingInfo(name);
+		playerInfo.NameChangedEvent += OnPlayerNameChanged;
+		Name = playerInfo.Name;
 		SetUpPlayer();
+	}
+
+	private void OnPlayerNameChanged(string newName)
+	{
+		Name = newName;
+		GetNode<Label>("NameLabel").Text = Name;
 	}
 
 	[Export]
 	public int Speed { get; set; } = 100; // How fast the player will move (pixels/sec).
-
 	public Vector2 ScreenSize; // Size of the game window.
 	public BeingInfo PlayerInfo { get { return playerInfo; } }
-	public new string Name { get { return playerInfo.Name; } }
+	public new string Name
+	{
+		get
+		{
+			return name;
+		}
+
+		protected set
+		{
+			name = value;
+			NameChangedEvent?.Invoke(value);
+		}
+	}
+	public event Action<string> NameChangedEvent;
+
 	private Vector2 syncPos = new Vector2(0, 0);
 	private BeingInfo playerInfo;
+	private string name;
 
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
