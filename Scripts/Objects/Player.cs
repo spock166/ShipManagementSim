@@ -3,30 +3,29 @@ using Godot;
 
 public partial class Player : Area2D
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
 
-	}
-
-	internal void OnInitialize(string name)
-	{
-		playerInfo = new BeingInfo(name);
-		playerInfo.NameChangedEvent += OnPlayerNameChanged;
-		Name = playerInfo.Name;
-		SetUpPlayer();
-	}
-
-	private void OnPlayerNameChanged(string newName)
-	{
-		Name = newName;
-		GetNode<Label>("NameLabel").Text = Name;
-	}
-
+	#region Exportable Members
+	/// <summary>
+	/// The player's speed.
+	/// </summary>
 	[Export]
 	public int Speed { get; set; } = 100; // How fast the player will move (pixels/sec).
-	public Vector2 ScreenSize; // Size of the game window.
+	#endregion
+
+	#region Public Properties
+	/// <summary>
+	/// Size of the game window.
+	/// </summary>
+	public Vector2 ScreenSize;
+
+	/// <summary>
+	/// The player's data structure.
+	/// </summary>
 	public BeingInfo PlayerInfo { get { return playerInfo; } }
+
+	/// <summary>
+	/// The player's name.
+	/// </summary>
 	public new string Name
 	{
 		get
@@ -40,14 +39,59 @@ public partial class Player : Area2D
 			NameChangedEvent?.Invoke(value);
 		}
 	}
+
+	/// <summary>
+	/// The name changed event.
+	/// </summary>
 	public event Action<string> NameChangedEvent;
+	#endregion
 
-	private Vector2 syncPos = new Vector2(0, 0);
+	#region Private fields
+	/// <summary>
+	/// The player's info (private).
+	/// </summary>
 	private BeingInfo playerInfo;
+
+	/// <summary>
+	/// The player's name (private).
+	/// </summary>
 	private string name;
+	#endregion Private fields
 
+	/// <summary>
+	/// Called when the node enters the scene tree for the first time.
+	/// </summary>
+	public override void _Ready()
+	{
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	}
+
+	/// <summary>
+	/// Initializes the player object and data structure.
+	/// </summary>
+	/// <param name="name">The player's name.</param>
+	internal void OnInitialize(string name)
+	{
+		playerInfo = new BeingInfo(name);
+		playerInfo.NameChangedEvent += OnPlayerNameChanged;
+		Name = playerInfo.Name;
+		SetUpPlayer();
+	}
+
+	/// <summary>
+	/// Runs when player's name is updated.
+	/// </summary>
+	/// <param name="newName">Player's new name.</param>
+	private void OnPlayerNameChanged(string newName)
+	{
+		Name = newName;
+		GetNode<Label>("NameLabel").Text = Name;
+	}
+
+	/// <summary>
+	/// Called every frame.
+	/// </summary>
+	/// <param name="delta">The time elapsed since the previous frame.</param>
 	public override void _Process(double delta)
 	{
 		var velocity = Vector2.Zero;
@@ -85,7 +129,6 @@ public partial class Player : Area2D
 		}
 
 		Position += velocity * (float)delta;
-		syncPos = GlobalPosition;
 	}
 
 	/// <summary>
