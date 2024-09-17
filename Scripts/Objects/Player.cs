@@ -5,27 +5,23 @@ public partial class Player : Area2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").SetMultiplayerAuthority(int.Parse(Name));
+		playerInfo = new BeingInfo("Player");
+		SetUpPlayer();
 	}
 
 	[Export]
 	public int Speed { get; set; } = 100; // How fast the player will move (pixels/sec).
 
 	public Vector2 ScreenSize; // Size of the game window.
-
+	public BeingInfo PlayerInfo { get { return playerInfo; } }
+	public new string Name { get { return playerInfo.Name; } }
 	private Vector2 syncPos = new Vector2(0, 0);
+	private BeingInfo playerInfo;
+
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (GetNode<MultiplayerSynchronizer>("MultiplayerSynchronizer").GetMultiplayerAuthority() != Multiplayer.GetUniqueId())
-		{
-			GlobalPosition = GlobalPosition.Lerp(syncPos, .25f);
-			return;
-		}
-
-		GetNode<Camera2D>("Camera2D").Enabled = true;
-
 		var velocity = Vector2.Zero;
 
 		if (Input.IsActionPressed("move_right"))
@@ -68,8 +64,8 @@ public partial class Player : Area2D
 	/// Setup player when entering the scene.
 	/// </summary>
 	/// <param name="name">The name to assign to the player's nametag.</param>
-	public void SetUpPlayer(string name)
+	public void SetUpPlayer()
 	{
-		GetNode<Label>("NameLabel").Text = name;
+		GetNode<Label>("NameLabel").Text = Name;
 	}
 }
